@@ -3,6 +3,12 @@
 
 Pokédex / API
 
+## Deploy ( acesse o site )
+
+https://mauricio-react-ah2vg8uii-mauricioleitesilva171-gmailcom.vercel.app/ <br>
+Ou <br>
+https://mauricio-leite.netlify.app/
+
 
 ## Stack utilizada :
 * React-router-dom <br>
