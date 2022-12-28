@@ -209,6 +209,7 @@ const Jogo = () => {
                 isOpen={modalOpen}
                 onRequestClose={closeModalCapturar}
                 style={customStyle2}
+                ariaHideApp={false}
             >
                 <div className='titleModal'>
                     <h1>Todos os pokémons capturados</h1>

@@ -53,6 +53,7 @@ const HomePage = () => {
         isOpen={modalOpen}
         onRequestClose={closeModalCapturar}
         style={customStyle}
+        ariaHideApp={false}
       >
         <ModalCapturar>
                <h1>Gotcha!</h1>
