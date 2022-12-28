@@ -5,7 +5,7 @@ Pokédex / API
 
 ## Deploy ( acesse o site )
 
-https://mauricio-react-ah2vg8uii-mauricioleitesilva171-gmailcom.vercel.app/ <br>
+https://mauricio-react-api-peach.vercel.app/ <br>
 Ou <br>
 https://mauricio-leite.netlify.app/
 
