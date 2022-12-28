@@ -11,7 +11,7 @@ https://mauricio-react-api-peach.vercel.app/
 * React-router-dom <br>
 * Styled-components<br>
 * React-modal<br>
-* Requisições Fetch ( async e await )
+* Requisições com o Axios
 
 
 ## Funcionalidades
