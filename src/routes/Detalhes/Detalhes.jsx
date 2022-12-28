@@ -5,40 +5,45 @@ import CardDetalhes from '../CardDetalhes/CardDetalhes'
 import { ContainerPrincipal, TituloDetalhes, ModalCapturar2 } from './Detalhes.styled'
 import { GlobalContext } from '../../contexts/GlobalContext'
 import Modal from 'react-modal'
+import axios from 'axios'
+import { BASE_URL } from '../../constants/url'
 
 const Detalhes = () => {
   const context = useContext(GlobalContext)
   const { closeModalCapturar, modalOpen, customStyle, flow } = context
-
-  const urlCadaPoke = `https://pokeapi.co/api/v2/pokemon/`
   const { id } = useParams()
-  const [details, setDetails] = useState(null)
+  const [details, setDetails] = useState()
   const [typeDetalhes, setTypeDetalhes] = useState([])
   const [typeDetalhes2, setTypeDetalhes2] = useState([])
   const [base, setBase] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
 
-  const fetchDetalhes = async (url) => {
+  const fetchDetalhes = async () => {
+    try{
     setIsLoading(true)
-    const APIResponse = await fetch(url)
-    const data = await APIResponse.json()
-    setDetails(data)
-    setTypeDetalhes(data['types']['0']['type']['name'])
-    setTypeDetalhes2(data['types']['1']['type']['name'])
-  }
-  const functionBaseStart2 = async () => {
-    setBase(details['stats'])
+    const APIResponse = await axios.get(`${BASE_URL}${id}`)
+    setDetails(APIResponse.data)
+    }
+    catch(error){
+
+    }
     setIsLoading(false)
   }
 
   useEffect(() => {
-    const pokemonUrl = `${urlCadaPoke}${id}`
-    fetchDetalhes(pokemonUrl)
-  }, [])
-  useEffect(() => {
-    functionBaseStart2()
-  }, [fetchDetalhes])
+    fetchDetalhes()
+  },[])
+  const typeEbase = async () => {
+    if(details){
+      setTypeDetalhes(details['types']['0'].type?.['name'])
+      setTypeDetalhes2(details.types[1]?.type?.['name'])
+      setBase(details['stats'])
+      }
+  }
+  useEffect(()=>{
+    typeEbase()
+  },[details])
 
   return (
     <>
@@ -52,6 +57,7 @@ const Detalhes = () => {
         isOpen={modalOpen}
         onRequestClose={closeModalCapturar}
         style={customStyle}
+        ariaHideApp={false}
       >
         {flow === 1 &&
           <ModalCapturar2>

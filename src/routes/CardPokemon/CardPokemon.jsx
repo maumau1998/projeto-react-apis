@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 import {
   BoxCard,
   EsquerdoCard,
@@ -21,49 +22,51 @@ import { GlobalContext } from '../../contexts/GlobalContext'
 
 const CardPokemon = (props, { showLink = true }) => {
   const context = useContext(GlobalContext)
-  const { cardTop, addToPokedex, removeFromPokedex, pokedex, setFlow,openModalCapturar } = context
+  const { cardTop, addToPokedex, removeFromPokedex, setFlow, openModalCapturar, setModalOpen } = context
   const [cadaPokemon, setCadaPokemon] = useState([])
   const [cadaPokemonImg, setCadaPokemonImg] = useState([])
   const [poder, setPoder] = useState([])
   const [poder2, setPoder2] = useState([])
-  const [poder3, setPoder3] = useState([])
   const { pokemonUrlCada, isHomePage, isPokedex, pokemon} = props
 
   const fetchPokemon2 = async () => {
+    try {
+      const APIResponse = await axios.get(pokemonUrlCada)
+      setCadaPokemon(APIResponse.data)
+    }
+    catch (error){
 
-    const APIResponse = await fetch(pokemonUrlCada)
-    const data = await APIResponse.json()
-    return data
+    }    
   }
-  const renderPokemon = async (pokemon) => {
-    const resData = await fetchPokemon2(pokemon)
-    setCadaPokemon(resData)
-  }
-  const renderImagem = async () => {
+  const renderPokemon = async () => {
+  if(cadaPokemon.sprites){
     setCadaPokemonImg(cadaPokemon['sprites']['other']['official-artwork']['front_default'])
+   }
+   if(cadaPokemon.types){
     setPoder(cadaPokemon['types']['0']['type']['name'])
-    setPoder2(cadaPokemon['types']['1']['type']['name'])
+   } 
+   if(cadaPokemon.types){
+    setPoder2(cadaPokemon.types[1]?.type?.name)
+   }
   }
-  const type2Pokedex = async () => {
-    setPoder3(pokemon['types']['1']['type']['name'])
-  }
+
   useEffect(() => {
-    renderPokemon()
+    fetchPokemon2()
   }, [cardTop])
 
-  useEffect(() => {
-    renderImagem()
-  }, [renderPokemon])
-  useEffect(() => {
-    type2Pokedex()
-  }, [pokedex])
-  
+  useEffect(()=>{
+    renderPokemon()
+  },[cadaPokemon])
+
+
+  // Adicionar a pokedex e abrir o modal
+
   function modalEaddToPokedex () {
-    openModalCapturar()
+    setModalOpen(true)
     addToPokedex(cadaPokemon)
   }
   function modalRemoveToPokedex () {
-    openModalCapturar()
+    setModalOpen(true)
     removeFromPokedex(pokemon)
   }
 
@@ -73,7 +76,7 @@ const CardPokemon = (props, { showLink = true }) => {
         <EsquerdoCard>
           {cadaPokemon.id < 10 ? (<p>{"#0" + cadaPokemon.id}</p>) : (<p>{"#" + cadaPokemon.id}</p>)}
           <h2>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
-          {poder2.length > 1 && <span>{<TypeImg src={getTypes(poder2)} />}</span>}
+          {poder2 && <span>{<TypeImg src={getTypes(poder2)} />}</span>}
           {poder.length > 1 && <span>{<TypeImg2 src={getTypes(poder)} />}</span>}
           <div className='linkDetalhes'>
             {showLink && <Link onClick={()=>{setFlow(2)}} className='nameDetalhes' to={`/detalhes/${pokemon.name}`}>Detalhes</Link>}
@@ -89,7 +92,7 @@ const CardPokemon = (props, { showLink = true }) => {
         <EsquerdoCard>
           {pokemon.id < 10 ? (<p>{"#0" + pokemon.id}</p>) : (<p>{"#" + pokemon.id}</p>)}
           <h2>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
-          {poder3.length > 1 && pokemon['types']['1']?.type.name && <span>{<TypeImg src={getTypes(pokemon['types']['1']?.type.name)} />}</span>}
+          {pokemon.types[1]?.type?.name && pokemon['types']['1']?.type.name && <span>{<TypeImg src={getTypes(pokemon['types']['1']?.type.name)} />}</span>}
           {pokemon['types']['0']['type']['name'] && <span>{<TypeImg2 src={getTypes(pokemon['types']['0']['type']['name'])} />}</span>}
           <div className='linkDetalhes'>
             {showLink && <Link onClick={()=>{setFlow(1)}} className='nameDetalhes' to={`/detalhes/${pokemon.name}`}>Detalhes</Link>}

@@ -1,6 +1,7 @@
 import Router from './routes/Router'
 import { GlobalContext } from './contexts/GlobalContext'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 
 function App() {
@@ -14,16 +15,21 @@ function App() {
 
 // Primeira requisição a API
 
-  const fetchPokemon = async (url) => {
-    const APIResponse = await fetch(url)
-    const data = await APIResponse.json();
-    setCardTop(data.results)
+  const fetchPokemon = async () => {
+    try{
+    const APIResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/?offset=${nextPage}&limit=${quantidadePoke}`)
+    setCardTop(APIResponse.data.results)
     setPokedex(cardTop)
+    pegarPokes()
+    }
+    catch(error){
+      
+    }
   }
 
   useEffect(() => {
     if(contador >= 1){
-    fetchPokemon(`https://pokeapi.co/api/v2/pokemon/?offset=${nextPage}&limit=${quantidadePoke}`)
+    fetchPokemon()
     }
   }, [contador])
 // Adicionar a Pokedex
@@ -41,12 +47,12 @@ function App() {
       window.localStorage.setItem("pokemon", pokedexString)
     }
   }
-  useEffect(()=>{
+  const pegarPokes = () => {
     if(localStorage.getItem("pokemon")){
       const newListaPokedex = localStorage.getItem("pokemon")
       const pokedex2 = JSON.parse(newListaPokedex)
       setPokedex(pokedex2)}
-  },[pokedex])
+  }
 
 // Remover da Pokedex
 
@@ -121,7 +127,8 @@ function App() {
     nextPage,
     openModalCapturar,
     backInicio,
-    nextFinal
+    nextFinal,
+    setModalOpen
   }
   return (
     <div className="App">

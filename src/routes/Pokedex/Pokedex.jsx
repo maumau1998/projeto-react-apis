@@ -3,7 +3,6 @@ import { GlobalContext } from '../../contexts/GlobalContext'
 import CardPokemon from '../CardPokemon/CardPokemon'
 import Header from '../Header/Header'
 import { MainPokedex, TituloPokedex, ModalRemover } from './Pokedex.styled'
-import Excluir from '../../assets/Remover2.png'
 import Modal from 'react-modal'
 
 const Pokedex = (props) => {
@@ -26,7 +25,7 @@ const Pokedex = (props) => {
           return <CardPokemon
             pokemon={pokemon}
             isPokedex={true}
-            key={pokemon.url}
+            key={pokemon.name}
             pokemonUrlCada2={pokemon.url}
 
           />
@@ -37,6 +36,7 @@ const Pokedex = (props) => {
         isOpen={modalOpen}
         onRequestClose={closeModalCapturar}
         style={customStyle}
+        ariaHideApp={false}
       >
         <ModalRemover>
           <h1>Oh, no</h1>
