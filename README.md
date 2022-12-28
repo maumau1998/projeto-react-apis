@@ -5,10 +5,7 @@ Pokédex / API
 
 ## Deploy ( acesse o site )
 
-https://mauricio-react-api-peach.vercel.app/ <br>
-Ou <br>
-https://mauricio-leite.netlify.app/
-
+https://mauricio-react-api-peach.vercel.app/ 
 
 ## Stack utilizada :
 * React-router-dom <br>
