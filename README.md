@@ -9,7 +9,7 @@ https://mauricio-react-api-peach.vercel.app/
 
 ### Veja ou projeto semelhante 
 
-Deploy: http://mauricio.digidex.surge.sh/
+Deploy: http://mauricio.digidex.surge.sh/ <br>
 Repositório : https://github.com/maumau1998/projeto-react-api2.git
 
 ## Stack utilizada :
