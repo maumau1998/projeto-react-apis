@@ -7,7 +7,7 @@ Pokédex / API
 
 https://mauricio-react-api-peach.vercel.app/ 
 
-### Veja ou projeto semelhante 
+### Veja outro projeto semelhante 
 
 Deploy: http://mauricio.digidex.surge.sh/ <br>
 Repositório : https://github.com/maumau1998/projeto-react-api2.git
